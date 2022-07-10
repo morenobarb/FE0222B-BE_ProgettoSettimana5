@@ -1,0 +1,42 @@
+-- Table: multe.auto
+
+-- DROP TABLE IF EXISTS multe.auto;
+
+CREATE TABLE IF NOT EXISTS multe.auto
+(
+    id integer NOT NULL DEFAULT nextval('multe.auto_id_seq'::regclass),
+    targa character varying(7) COLLATE pg_catalog."default" NOT NULL,
+    marca character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    modello character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT auto_pkey PRIMARY KEY (id),
+    CONSTRAINT auto_targa_key UNIQUE (targa)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS multe.auto
+    
+
+***********************************************************************
+
+-- Table: multe.infrazione
+
+-- DROP TABLE IF EXISTS multe.infrazione;
+
+CREATE TABLE IF NOT EXISTS multe.infrazione
+(
+    id integer NOT NULL DEFAULT nextval('multe.infrazione_id_seq'::regclass),
+    data date NOT NULL,
+    tipo character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    importo numeric(5,0) NOT NULL,
+    id_auto integer NOT NULL,
+    CONSTRAINT infrazione_pkey PRIMARY KEY (id),
+    CONSTRAINT fk_infrazione_auto FOREIGN KEY (id_auto)
+        REFERENCES multe.auto (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS multe.infrazione
